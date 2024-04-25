@@ -604,7 +604,7 @@ def main():
             low_cpu_mem_usage=True,
             device_map=device_map,
             load_in_4bit=load_in_4bit,
-            load_in_8bit=load_in_8bit,
+            #load_in_8bit=load_in_8bit,
             quantization_config=quantization_config,
             use_flash_attention_2=training_args.use_flash_attention_2
         )
