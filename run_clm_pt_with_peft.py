@@ -573,13 +573,17 @@ def main():
         else:
             load_in_8bit_skip_modules = None
         quantization_config = BitsAndBytesConfig(
-            load_in_4bit=training_args.load_in_kbits == 4,
-            load_in_8bit=training_args.load_in_kbits == 8,
-            llm_int8_threshold=6.0,
-            load_in_8bit_skip_modules=load_in_8bit_skip_modules,
-            bnb_4bit_compute_dtype=compute_dtype,
-            bnb_4bit_use_double_quant=training_args.double_quant,
-            bnb_4bit_quant_type=training_args.quant_type # {'fp4', 'nf4'}
+            #load_in_4bit=training_args.load_in_kbits == 4,
+            #load_in_8bit=training_args.load_in_kbits == 8,
+            #llm_int8_threshold=6.0,
+            #load_in_8bit_skip_modules=load_in_8bit_skip_modules,
+            #bnb_4bit_compute_dtype=compute_dtype,
+            #bnb_4bit_use_double_quant=training_args.double_quant,
+            #bnb_4bit_quant_type=training_args.quant_type # {'fp4', 'nf4'}
+            load_in_4bit=True, # 4比特量化
+            bnb_4bit_quant_type="nf4", #  NF4 以获得更高的精度
+            bnb_4bit_compute_dtype=torch.bfloat16, # 使用 16 比特计算数据类型 (默认 torch.float32)，矩阵乘法和训练将会更快
+            bnb_4bit_use_double_quant=True, # 启用第二轮量化 以便每个参数额外节省 0.4 比特
         )
     else:
         load_in_4bit = False
