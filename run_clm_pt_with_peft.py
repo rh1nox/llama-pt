@@ -59,6 +59,7 @@ from peft import LoraConfig, TaskType, get_peft_model, PeftModel, get_peft_model
 from peft.tuners.lora import LoraLayer
 from transformers.trainer_utils import PREFIX_CHECKPOINT_DIR
 
+os.environ["WANDB_DISABLED"] = "true"
 
 class SavePeftModelCallback(transformers.TrainerCallback):
     def save_model(self, args, state, kwargs):
