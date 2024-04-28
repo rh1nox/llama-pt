@@ -565,6 +565,7 @@ def main():
         logger.info("Evaluation example:")
         logger.info(tokenizer.decode(eval_dataset[0]['input_ids']))
     compute_dtype = (torch.float16 if training_args.fp16 else (torch.bfloat16 if training_args.bf16 else torch.float32))
+    '''
     if training_args.load_in_kbits in [4, 8]:
         load_in_4bit = training_args.load_in_kbits == 4
         load_in_8bit = training_args.load_in_kbits == 8
@@ -583,6 +584,27 @@ def main():
             load_in_4bit=True, # 4比特量化
             bnb_4bit_quant_type="nf4", #  NF4 以获得更高的精度
             bnb_4bit_compute_dtype=torch.bfloat16, # 使用 16 比特计算数据类型 (默认 torch.float32)，矩阵乘法和训练将会更快
+            bnb_4bit_use_double_quant=True, # 启用第二轮量化 以便每个参数额外节省 0.4 比特
+        )
+        
+    else:
+    '''
+    if training_args.modules_to_save is not None:
+        load_in_8bit_skip_modules = training_args.modules_to_save.split(',')
+    else:
+        load_in_8bit_skip_modules = None
+    
+    if training_args.load_in_kbits == 8:
+        quantization_config = BitsAndBytesConfig(
+            load_in_8bit=True,
+            load_in_8bit_skip_modules=load_in_8bit_skip_modules
+        )
+    elif training_args.load_in_kbits == 4:
+        quantization_config = BitsAndBytesConfig(
+            load_in_4bit=True, # 4比特量化
+            load_in_8bit_skip_modules=load_in_8bit_skip_modules,
+            bnb_4bit_quant_type="nf4", #  NF4 以获得更高的精度
+            bnb_4bit_compute_dtype=torch.float16, # 使用 16 比特计算数据类型 (默认 torch.float32)，矩阵乘法和训练将会更快
             bnb_4bit_use_double_quant=True, # 启用第二轮量化 以便每个参数额外节省 0.4 比特
         )
     else:
