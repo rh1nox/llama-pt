@@ -576,9 +576,9 @@ def main():
             load_in_8bit=training_args.load_in_kbits == 8,
             llm_int8_threshold=6.0,
             load_in_8bit_skip_modules=load_in_8bit_skip_modules,
-            bnb_4bit_compute_dtype=compute_dtype,
-            bnb_4bit_use_double_quant=training_args.double_quant,
-            bnb_4bit_quant_type=training_args.quant_type # {'fp4', 'nf4'}
+            #bnb_4bit_compute_dtype=compute_dtype,
+            #bnb_4bit_use_double_quant=training_args.double_quant,
+            #bnb_4bit_quant_type=training_args.quant_type # {'fp4', 'nf4'}
         )
     else:
         load_in_4bit = False
@@ -603,6 +603,7 @@ def main():
             torch_dtype=torch_dtype,
             low_cpu_mem_usage=True,
             device_map=device_map,
+            load_in_8bit=True,
             quantization_config=quantization_config,
             use_flash_attention_2=training_args.use_flash_attention_2
         )
