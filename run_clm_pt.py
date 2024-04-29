@@ -603,7 +603,7 @@ def main():
             torch_dtype=torch_dtype,
             low_cpu_mem_usage=True,
             device_map=device_map,
-            load_in_8bit=True,
+            #load_in_8bit=True,
             quantization_config=quantization_config,
             use_flash_attention_2=training_args.use_flash_attention_2
         )
